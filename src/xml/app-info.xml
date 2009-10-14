@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  **
+  ** PLEASE do not modify this file without approval from
+  ** the maintainers!
+  **
+  -->
+<app:app-info xmlns:app="http://www.jcoderz.org/app-info-v1.0"
+         xmlns:xi="http://www.w3.org/2003/XInclude">
+   <application
+      id="101"
+      name="KeyStore Explorer"
+      short-name="KSE"
+      package="org.jcoderz.keytoolz.keystoreexplorer">
+		  <group id="1" name="Base Service"
+		    short-name="BAS" package="org.jcoderz.keytoolz.keystoreexplorer"
+		    base-exception="org.jcoderz.commons.BaseException"
+		    base-runtime-exception="org.jcoderz.commons.BaseRuntimeException"
+		    service="NONE">
+
+		  </group>
+   </application>
+</app:app-info>
