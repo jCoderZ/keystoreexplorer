@@ -778,8 +778,8 @@ public class CertificateExplorer
     {
       jTextField1.setText(CertUtil.getIssuer(mCertChain[0]));
       jTextField2.setText(CertUtil.getSubject(mCertChain[0]));
-      jTextField3.setText(getDateFormat(mCertChain[0].getNotBefore()));
-      jTextField4.setText(getDateFormat(mCertChain[0].getNotAfter()));
+      jTextField3.setText(formatDate(mCertChain[0].getNotBefore()));
+      jTextField4.setText(formatDate(mCertChain[0].getNotAfter()));
     }
   }
 
@@ -984,22 +984,32 @@ public class CertificateExplorer
   }
 
 
+  /**
+   *
+   * @param data
+   * @return
+   */
   public String spacedHexString(byte[] data)
   {
     String hex = HexUtil.bytesToHex(data);
-    int mod = hex.length() % 4;
-    String spaced = "";
+    StringBuilder spaced = new StringBuilder();
     int i;
     for (i = 0; i < hex.length() - 4; i += 4)
     {
-      spaced += hex.substring(i, i + 4) + " ";
+      spaced.append(hex.substring(i, i + 4));
+      spaced.append(" ");
     }
-    spaced += hex.substring(i, i + mod);
-    return spaced;
+    spaced.append(hex.substring(i, hex.length()));
+    return spaced.toString();
   }
 
 
-  protected String getDateFormat(Date date)
+  /**
+   * Formats the given date with the default formatter for the locale.
+   * @param date the date to be formatted
+   * @return the formatted date
+   */
+  protected String formatDate(Date date)
   {
     String strDate = null;
     if (null != date)
@@ -1011,14 +1021,17 @@ public class CertificateExplorer
   }
 
 
+  /**
+   * Generate the tree structure from the certificate chain.
+   */
   private void generateTree()
   {
     DefaultMutableTreeNode root = null;
     DefaultMutableTreeNode previousNode = null;
     for (int i = mCertChain.length - 1; i >= 0; i--)
     {
-      DefaultMutableTreeNode node =
-          new DefaultMutableTreeNode(new CertificateHolder(mCertChain[i], mCertOk[i], mCertStatus[i]));
+      DefaultMutableTreeNode node = new DefaultMutableTreeNode(
+          new CertificateHolder(mCertChain[i], mCertOk[i], mCertStatus[i]));
       if (previousNode != null)
       {
         previousNode.add(node);
@@ -1045,7 +1058,13 @@ public class CertificateExplorer
     {
       public void run()
       {
-        new CertificateExplorer().setVisible(true);
+        JFrame testFrame = new JFrame();
+        JPanel certExp = new CertificateExplorer();
+        certExp.setEnabled(true);
+        certExp.setVisible(true);
+        testFrame.getContentPane().add(certExp);
+        testFrame.setVisible(true);
+        testFrame.pack();
       }
     });
   }
