@@ -6,6 +6,11 @@ import javax.swing.Icon;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
+/**
+ * The table cell renderer for the CertificateExplorer tables.
+ *
+ * @author cloroff
+ */
 public class CertificateExplorerTableCellRenderer
     extends DefaultTableCellRenderer
 {
@@ -13,6 +18,9 @@ public class CertificateExplorerTableCellRenderer
   private static final long serialVersionUID = 1L;
 
 
+  /**
+   * @see javax.swing.table.DefaultTableCellRenderer#getTableCellRendererComponent(javax.swing.JTable, java.lang.Object, boolean, boolean, int, int)
+   */
   public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
       boolean hasFocus, int row, int column)
   {

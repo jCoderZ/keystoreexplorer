@@ -51,7 +51,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.Vector;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -87,8 +86,24 @@ import sun.security.x509.OIDMap;
  * @created 14. März 2007, 16:32
  */
 public class CertificateExplorer
-    extends javax.swing.JPanel
+    extends JPanel
 {
+  private static final ImageIcon INFORMATION_ICON = getIcon("/images/information.gif");
+
+  private static final ImageIcon WARNING_ICON = getIcon("/images/warning.gif");
+
+  private static final ImageIcon OK_ICON = getIcon("/images/ok.gif");
+
+  private static final ImageIcon VALID_CERT_ICON = getIcon("/images/cert1.gif");
+
+  private static final ImageIcon INVALID_CERT_ICON = getIcon("/images/invalidcert.gif");
+
+  private static final ImageIcon PIN_RED_ICON = getIcon("/images/pinred.gif");
+
+  private static final ImageIcon PIN_GREEN_ICON = getIcon("/images/pingreen.gif");
+
+  private static final ImageIcon CERT_ICON = getIcon("/images/cert.gif");
+
   private static final long serialVersionUID = 1L;
 
   /** The data container for the general part of the certificate explorer */
@@ -105,12 +120,6 @@ public class CertificateExplorer
 
   /** The certificate chain */
   private X509Certificate[] mCertChain;
-
-  /** The icon for valid certificates */
-  private ImageIcon mValidCertIcon;
-
-  /** The icon for invalid certificates */
-  private ImageIcon mInvalidCertIcon;
 
   /**
    * A flag indicating, if a private key is available for the last
@@ -153,11 +162,20 @@ public class CertificateExplorer
   // End of variables declaration
   //GEN-END:variables
 
+  /**
+   * Load an image resource from the jar file.
+   * @param filename the path/filename of the resource
+   * @return the icon object
+   */
+  private static ImageIcon getIcon(String filename)
+  {
+    return new ImageIcon(CertificateExplorer.class.getResource(filename));
+  }
 
   /**
    * Creates new CertificateExplorer form.
    */
-  public CertificateExplorer()
+  public CertificateExplorer ()
   {
     initComponents();
     initDetailsTable();
@@ -297,7 +315,7 @@ public class CertificateExplorer
             Short.MAX_VALUE)));
 
     jLabel6.setFont(new java.awt.Font("Dialog", 0, 12));
-    jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cert.gif"))); // NOI18N
+    jLabel6.setIcon(CERT_ICON); // NOI18N
     jLabel6.setText("You have a private key that corresponds to this certificate");
     jLabel6.setVisible(mPrivateKey);
 
@@ -537,6 +555,11 @@ public class CertificateExplorer
     }
   }// GEN-LAST:event_formPropertyChange
 
+  /**
+   * Determine which icon to show depending on the status of the certificate.
+   *
+   * @return the icon object
+   */
   private ImageIcon getHeadlineCertIcon()
   {
     ImageIcon result = null;
@@ -544,23 +567,19 @@ public class CertificateExplorer
     {
       if (mCertOk[0])
       {
-        result = getValidCertIcon();
+        result = VALID_CERT_ICON;
       }
       else
       {
-        result = getInvalidCertIcon();
+        result = INVALID_CERT_ICON;
       }
     }
     return result;
   }
 
-
-  public Certificate[] getCertChain()
-  {
-    return mCertChain;
-  }
-
-
+  /**
+   * @see CertificateExplorer#setCertChain(X509Certificate[], boolean)
+   */
   public void setCertChain(Certificate[] certChain, boolean privateKey)
   {
     X509Certificate[] x509CertChain = new X509Certificate[certChain.length];
@@ -571,7 +590,11 @@ public class CertificateExplorer
     setCertChain(x509CertChain, privateKey);
   }
 
-
+  /**
+   * Set the certificate chain for the certificate explorer.
+   * @param certChain  the X509 certificate chain
+   * @param privateKey private key flag
+   */
   public void setCertChain(X509Certificate[] certChain, boolean privateKey)
   {
     this.mCertChain = certChain;
@@ -587,27 +610,9 @@ public class CertificateExplorer
     this.updateUI();
   }
 
-
-  public ImageIcon getInvalidCertIcon()
-  {
-    if (mInvalidCertIcon == null)
-    {
-      mInvalidCertIcon = new ImageIcon(getClass().getResource("/images/invalidcert.gif"));
-    }
-    return mInvalidCertIcon;
-  }
-
-
-  public ImageIcon getValidCertIcon()
-  {
-    if (mValidCertIcon == null)
-    {
-      mValidCertIcon = new ImageIcon(getClass().getResource("/images/cert1.gif"));
-    }
-    return mValidCertIcon;
-  }
-
-
+  /**
+   * Checks the validity of the certificate chain and sets the status texts and flags.
+   */
   private void checkChain()
   {
     mGeneralData = new Vector<Vector<Object>>();
@@ -638,14 +643,14 @@ public class CertificateExplorer
     if (mCertOk[0])
     {
       innerData = new Vector<Object>();
-      innerData.add(getIcon("/images/ok.gif"));
+      innerData.add(OK_ICON);
       innerData.add("This certificate is currently valid");
       mGeneralData.add(innerData);
     }
     else
     {
       innerData = new Vector<Object>();
-      innerData.add(new ImageIcon(getClass().getResource("/images/warning.gif")));
+      innerData.add(WARNING_ICON);
       innerData.add(mCertStatus[0]);
       mGeneralData.add(innerData);
     }
@@ -668,14 +673,14 @@ public class CertificateExplorer
         if (mPrivateKey)
         {
           innerData = new Vector<Object>();
-          innerData.add(getIcon("/images/ok.gif"));
+          innerData.add(OK_ICON);
           innerData.add("This is a selfsigned certificate");
           mGeneralData.add(innerData);
         }
         else
         {
           innerData = new Vector<Object>();
-          innerData.add(new ImageIcon(getClass().getResource("/images/ok.gif")));
+          innerData.add(OK_ICON);
           innerData.add("This is a trusted root certificate");
           mGeneralData.add(innerData);
         }
@@ -683,7 +688,7 @@ public class CertificateExplorer
       else
       {
         innerData = new Vector<Object>();
-        innerData.add(new ImageIcon(getClass().getResource("/images/ok.gif")));
+        innerData.add(OK_ICON);
         innerData.add("This certificate has been verified up to a trusted root certificate");
         mGeneralData.add(innerData);
       }
@@ -691,7 +696,7 @@ public class CertificateExplorer
     catch (GeneralSecurityException gse)
     {
       innerData = new Vector<Object>();
-      innerData.add(new ImageIcon(getClass().getResource("/images/warning.gif")));
+      innerData.add(WARNING_ICON);
       innerData.add("This certificate can not be verified up to a trusted root certificate");
       mGeneralData.add(innerData);
 
@@ -702,7 +707,7 @@ public class CertificateExplorer
       else
       {
         innerData = new Vector<Object>();
-        innerData.add(new ImageIcon(getClass().getResource("/images/ok.gif")));
+        innerData.add(OK_ICON);
         innerData.add("This is a trusted certificate");
         mGeneralData.add(innerData);
       }
@@ -744,13 +749,9 @@ public class CertificateExplorer
     }
   }
 
-
-  private ImageIcon getIcon(String filename)
-  {
-    return new ImageIcon(getClass().getResource(filename));
-  }
-
-
+  /**
+   * Initialises the table for the 'General' tab.
+   */
   private void initGeneralTable()
   {
     Vector<String> columnNames = new Vector<String>();
@@ -771,7 +772,9 @@ public class CertificateExplorer
     jTable1.getTableHeader().setReorderingAllowed(false);
   }
 
-
+  /**
+   * Initialise the labels on the 'General' tab.
+   */
   private void initInfoLabels()
   {
     if (mCertChain != null && mCertChain.length > 0)
@@ -784,9 +787,11 @@ public class CertificateExplorer
   }
 
 
+  /**
+   * Initialises the table for the 'Details' tab.
+   */
   private void initDetailsTable()
   {
-    Icon informationIcon = getIcon("/images/information.gif");
     mDetailsData = new Vector<Vector<Object>>();
     if (mCertChain != null)
     {
@@ -796,42 +801,42 @@ public class CertificateExplorer
       if (iSelected < 2)
       {
         innerData = new Vector<Object>();
-        innerData.add(informationIcon);
+        innerData.add(INFORMATION_ICON);
         innerData.add("Version");
         innerData.add("V" + new Integer(mCertChain[0].getVersion()));
         mDetailsData.add(innerData);
         innerData = new Vector<Object>();
-        innerData.add(informationIcon);
+        innerData.add(INFORMATION_ICON);
         innerData.add("Serial Number");
         innerData.add(mCertChain[0].getSerialNumber().toString());
         mDetailsData.add(innerData);
         innerData = new Vector<Object>();
-        innerData.add(informationIcon);
+        innerData.add(INFORMATION_ICON);
         innerData.add("Issuer");
         innerData.add(mCertChain[0].getIssuerDN());
         mDetailsData.add(innerData);
         innerData = new Vector<Object>();
-        innerData.add(informationIcon);
+        innerData.add(INFORMATION_ICON);
         innerData.add("Subject");
         innerData.add(mCertChain[0].getSubjectDN());
         mDetailsData.add(innerData);
         innerData = new Vector<Object>();
-        innerData.add(informationIcon);
+        innerData.add(INFORMATION_ICON);
         innerData.add("Valid From");
         innerData.add(mCertChain[0].getNotBefore());
         mDetailsData.add(innerData);
         innerData = new Vector<Object>();
-        innerData.add(informationIcon);
+        innerData.add(INFORMATION_ICON);
         innerData.add("Valid To");
         innerData.add(mCertChain[0].getNotAfter());
         mDetailsData.add(innerData);
         innerData = new Vector<Object>();
-        innerData.add(informationIcon);
+        innerData.add(INFORMATION_ICON);
         innerData.add("Signature Algorithm");
         innerData.add(mCertChain[0].getSigAlgName());
         mDetailsData.add(innerData);
         innerData = new Vector<Object>();
-        innerData.add(informationIcon);
+        innerData.add(INFORMATION_ICON);
         innerData.add("Public Key");
         int bitLength = 0;
         if (mCertChain[0].getPublicKey() instanceof RSAPublicKey)
@@ -889,17 +894,22 @@ public class CertificateExplorer
   }
 
 
+  /**
+   * Adds the extensions to the data Vector for the 'Details' tab.
+   * @param bCritical decides whether the critical or the normal extensions are to be added
+   * @param data the vector to add the extensions to
+   */
   private void addExtensions(boolean bCritical, Vector<Vector<Object>> data)
   {
     X509Certificate x509Cert = mCertChain[0];
     Iterator<String> oidIterator = null;
-    String sImage = null;
+    ImageIcon icon = null;
     if (bCritical)
     {
       if (x509Cert.getCriticalExtensionOIDs() != null)
       {
         oidIterator = x509Cert.getCriticalExtensionOIDs().iterator();
-        sImage = "/images/pinred.gif";
+        icon = PIN_RED_ICON;
       }
     }
     else
@@ -907,7 +917,7 @@ public class CertificateExplorer
       if (x509Cert.getNonCriticalExtensionOIDs() != null)
       {
         oidIterator = x509Cert.getNonCriticalExtensionOIDs().iterator();
-        sImage = "/images/pingreen.gif";
+        icon = PIN_GREEN_ICON;
       }
     }
     if (oidIterator != null)
@@ -935,7 +945,7 @@ public class CertificateExplorer
           oidName = sOid;
         }
         Vector<Object> innerData = new Vector<Object>();
-        innerData.add(getIcon(sImage));
+        innerData.add(icon);
         innerData.add(oidName);
         String sValue = explicitExtensionHandling(oidName);
         if (sValue == null)
@@ -949,6 +959,12 @@ public class CertificateExplorer
   }
 
 
+  /**
+   * Special handling of certificate extensions.
+   * Currently only the KeyUsage extension is implemented.
+   * @param extension the extension name
+   * @return the extension value or null, if the extension is not known or handled explicitly
+   */
   private String explicitExtensionHandling(String extension)
   {
     if (extension.equalsIgnoreCase("KeyUsage"))
@@ -985,11 +1001,11 @@ public class CertificateExplorer
 
 
   /**
-   *
-   * @param data
-   * @return
+   * Create a space separated hex string with block of four characters.
+   * @param data the binary data to be formatted
+   * @return the spaced hex string
    */
-  public String spacedHexString(byte[] data)
+  private String spacedHexString(byte[] data)
   {
     String hex = HexUtil.bytesToHex(data);
     StringBuilder spaced = new StringBuilder();
@@ -1009,7 +1025,7 @@ public class CertificateExplorer
    * @param date the date to be formatted
    * @return the formatted date
    */
-  protected String formatDate(Date date)
+  private String formatDate(Date date)
   {
     String strDate = null;
     if (null != date)

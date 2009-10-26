@@ -12,6 +12,7 @@ package org.jcoderz.keytoolz.keystoreexplorer;
 import java.io.File;
 
 /**
+ * The file filter for certificate files.
  * @author cloroff
  */
 public class CertificateFileFilter
