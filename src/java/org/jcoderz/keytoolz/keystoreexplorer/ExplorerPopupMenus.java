@@ -87,6 +87,10 @@ public class ExplorerPopupMenus
 
   private static final String DELETE_TRUSTED = "Delete trusted Certificate";
 
+  private static final String RENAME_TRUSTED = "Rename trusted Certificate";
+
+  private static final String RENAME_KEY = "Rename Key";
+
   JPopupMenu popupDirectory;
 
   JPopupMenu popupKeyStoreClosed;
@@ -168,11 +172,13 @@ public class ExplorerPopupMenus
     addItemToPopupMenu(popupKeyEntries, CLONE_KEY, "keyclone.gif"); //
     addItemToPopupMenu(popupKeyEntries, DELETE_KEY, "deletekey.gif");
     addItemToPopupMenu(popupKeyEntries, CHANGE_KEY_PASS, "empty.gif");
+    addItemToPopupMenu(popupKeyEntries, RENAME_KEY, "empty.gif");
 
     popupTrustedEntries = new JPopupMenu();
     popupTrustedEntries.setLabel("Trusted Certificate");
     addItemToPopupMenu(popupTrustedEntries, EXPORT_TRUSTED, "exportcert.gif");
     addItemToPopupMenu(popupTrustedEntries, DELETE_TRUSTED, "deletecert.gif");
+    addItemToPopupMenu(popupTrustedEntries, RENAME_TRUSTED, "empty.gif");
   }
 
 
@@ -310,6 +316,10 @@ public class ExplorerPopupMenus
     else if (DELETE_KEY.equals(cmd) || DELETE_TRUSTED.equals(cmd))
     {
       deleteAlias();
+    }
+    else if (RENAME_KEY.equals(cmd) || RENAME_TRUSTED.equals(cmd))
+    {
+      renameAlias();
     }
     else if (PKCS10_REQUEST.equals(cmd))
     {
@@ -590,6 +600,48 @@ public class ExplorerPopupMenus
       }
       if (delete)
       {
+        ks.deleteEntry(alias);
+        ksHolder.saveKeyStore();
+        reloadTree();
+      }
+    }
+    catch (HeadlessException ex)
+    {
+      ex.printStackTrace();
+    }
+    catch (KeyStoreException ex)
+    {
+      ex.printStackTrace();
+    }
+    catch (Exception ex)
+    {
+      ex.printStackTrace();
+    }
+  }
+
+  private void renameAlias()
+  {
+    DefaultMutableTreeNode node =
+        (DefaultMutableTreeNode) parent.getSelectionPath().getLastPathComponent();
+    DefaultMutableTreeNode parentNode = (DefaultMutableTreeNode) node.getParent();
+    KeyStoreEntryHolder entryHolder = (KeyStoreEntryHolder) node.getUserObject();
+    final String alias = entryHolder.getAlias();
+    KeyStore.ProtectionParameter protParam = null;
+    if (entryHolder.isKeyEntry())
+    {
+      passDiag.setVisible(true);
+      protParam = new KeyStore.PasswordProtection(passDiag.getPassword());
+    }
+    KeyStoreHolder ksHolder = (KeyStoreHolder) parentNode.getUserObject();
+    KeyStore ks = ksHolder.getKeyStore();
+    try
+    {
+      String newAlias =
+        JOptionPane.showInputDialog(currentPopup, "Please enter the new alias for the entry.",
+            "Enter alias", JOptionPane.PLAIN_MESSAGE);
+      if (!newAlias.equals(alias))
+      {
+        ks.setEntry(newAlias, ks.getEntry(alias, protParam), protParam);
         ks.deleteEntry(alias);
         ksHolder.saveKeyStore();
         reloadTree();
@@ -947,7 +999,7 @@ public class ExplorerPopupMenus
       KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
       int keySize =
           Integer.parseInt(JOptionPane.showInputDialog(currentPopup,
-              "Please enter the key size (512, 1024, 2048 or 4096).", "Enter Key Size",
+              "Please enter the key size (512, 1024, 2048 or 4096 bit).", "Enter Key Size",
               JOptionPane.PLAIN_MESSAGE));
 
       generator.initialize(keySize);
