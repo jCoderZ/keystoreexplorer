@@ -6,7 +6,10 @@
 
 package org.jcoderz.keytoolz.keystoreexplorer;
 
+import java.awt.Frame;
 import java.io.File;
+
+import javax.swing.JDialog;
 
 import org.jcoderz.keytoolz.keystoreexplorer.util.PropertiesUtil;
 
@@ -14,15 +17,16 @@ import org.jcoderz.keytoolz.keystoreexplorer.util.PropertiesUtil;
 /**
  * @author cloroff
  */
-public class KeyStoreChooserDialog
-    extends javax.swing.JDialog
+public class KeyStoreChooserDialog extends JDialog
 {
 
   private static final long serialVersionUID = 1L;
 
 
-  /** Creates new form KeyStoreChooserDialog */
-  public KeyStoreChooserDialog(java.awt.Frame parent, boolean modal)
+  /**
+   * Creates new form KeyStoreChooserDialog.
+   * */
+  public KeyStoreChooserDialog(Frame parent, boolean modal)
   {
     super(parent, modal);
     initComponents();

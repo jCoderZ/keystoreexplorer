@@ -54,6 +54,7 @@
     <path id="default.classpath">
       <fileset dir="${base.dir}/lib">
         <include name="default/**/*.jar"/>
+        <include name="fawkez/*.jar"/>
       </fileset>
     </path>
     <path id="javadoc.classpath">
@@ -327,7 +328,7 @@ xerces in current vm: ${xerces.version.ant}
       <taskdef name="log-message-generator"
                classname="org.jcoderz.commons.taskdefs.LogMessageGenerator">
          <classpath>
-            <pathelement location="${base.dir}/lib/default/fawkez-all.jar"/>
+            <pathelement location="${base.dir}/lib/fawkez/fawkez-all.jar"/>
             <path refid="xalan.classpath"/>
          </classpath>
       </taskdef>
@@ -347,7 +348,7 @@ xerces in current vm: ${xerces.version.ant}
       <taskdef name="app-info"
                classname="org.jcoderz.commons.taskdefs.AppInfoTask">
          <classpath>
-            <pathelement location="${base.dir}/lib/default/fawkez-all.jar"/>
+            <pathelement location="${base.dir}/lib/fawkez/fawkez-all.jar"/>
             <path refid="xalan.classpath"/>
          </classpath>
       </taskdef>
@@ -431,7 +432,7 @@ xerces in current vm: ${xerces.version.ant}
           <manifest>
               <attribute name="Built-By" value="${user.name}" />
               <attribute name="Main-Class" value="org.jcoderz.keytoolz.keystoreexplorer.KeyStoreExplorer" />
-              <attribute name="Class-Path" value="swing-layout-1.0.jar fawkez.jar bcprov-jdk15-134.jar" />
+              <attribute name="Class-Path" value="swing-layout.jar fawkez.jar bcprov-jdk16.jar" />
               <section name="common">
                   <attribute name="Specification-Title" value="Example" />
                   <attribute name="Specification-Version" value="${version}" />
@@ -483,10 +484,14 @@ xerces in current vm: ${xerces.version.ant}
             <include name="keystoreexplorer-src.jar"/>
          </fileset>
       </copy>
-      <copy todir="${dist.dir}">
+      <copy todir="${dist.dir}" flatten="true">
          <fileset dir="${base.dir}/lib/default">
-            <include name="*.jar"/>
+            <include name="**/swing-layout.jar"/>
+            <include name="**/bcprov-jdk16.jar"/>
          </fileset>
+          <fileset dir="${base.dir}/lib/fawkez">
+             <include name="*.jar"/>
+          </fileset>
       </copy>
 
       <!-- resources -->

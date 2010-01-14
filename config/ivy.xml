@@ -14,12 +14,15 @@
     </configurations>
 
     <dependencies defaultconf="default" >
-    <!--  Things below here come from the lib dir in svn. -->
-        <dependency org="xalan" name="xalan" rev="2.7.1">
+        <dependency org="xalan" name="xalan" rev="2.7.0">
             <artifact name="xalan"/>
-            <artifact name="serializer"/>
         </dependency>
-        <dependency org="xml-resolver" name="xml-resolver" rev="1.2"/>
+        <dependency org="bouncycastle" name="bcprov-jdk16" rev="140">
+            <artifact name="bcprov-jdk16"/>
+        </dependency>
+			 <dependency org="org.swinglabs" name="swing-layout" rev="1.0.3">
+			    <artifact name="swing-layout"/>
+			</dependency>
    </dependencies>
 
 </ivy-module>

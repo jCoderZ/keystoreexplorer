@@ -74,8 +74,14 @@ public class DirectoryChooserDialog
   // GEN-FIRST:event_actionPerformed
   private void actionPerformed(java.awt.event.ActionEvent evt)
   {
-    if (jFileChooser1.getSelectedFile() != null && jFileChooser1.getSelectedFile().isDirectory())
+    File selected = jFileChooser1.getSelectedFile();
+    if (selected != null && jFileChooser1.getFileFilter().accept(selected))
     {
+      if (!selected.isDirectory())
+      {
+        selected = selected.getParentFile();
+      }
+      jFileChooser1.setSelectedFile(selected);
       this.setVisible(false);
     }
   }// GEN-LAST:event_actionPerformed
