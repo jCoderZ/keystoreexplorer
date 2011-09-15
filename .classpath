@@ -6,10 +6,9 @@
 	<classpathentry kind="src" path="src/templates"/>
 	<classpathentry kind="src" path="src/resources"/>
 	<classpathentry kind="src" path="test/java"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.5.0_15"/>
-	<classpathentry kind="lib" path="lib/default/AbsoluteLayout.jar"/>
-	<classpathentry kind="lib" path="lib/default/bcprov-jdk15-134.jar"/>
-	<classpathentry kind="lib" path="lib/default/fawkez.jar"/>
-	<classpathentry kind="lib" path="lib/default/swing-layout-1.0.jar"/>
+	<classpathentry kind="lib" path="C:/work/KeystoreExplorer/lib/default/bcprov-jdk16/bcprov-jdk16.jar"/>
+	<classpathentry kind="lib" path="C:/work/KeystoreExplorer/lib/fawkez/fawkez.jar"/>
+	<classpathentry kind="lib" path="C:/work/KeystoreExplorer/lib/default/swing-layout/swing-layout.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

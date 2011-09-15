@@ -4,6 +4,9 @@ import java.awt.Component;
 import java.io.File;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -17,6 +20,7 @@ public class KeyStoreTreeCellRenderer
   private static final long serialVersionUID = 1L;
   Icon keyStoreIcon;
   Icon keyIcon;
+  Icon invalidKeyIcon;
   Icon trustedCertIcon;
   Icon validCertIcon;
   Icon invalidCertIcon;
@@ -26,6 +30,7 @@ public class KeyStoreTreeCellRenderer
   {
     keyStoreIcon = new ImageIcon(getClass().getResource("/images/keystore.gif"));
     keyIcon = new ImageIcon(getClass().getResource("/images/keyandcert.gif"));
+    invalidKeyIcon = new ImageIcon(getClass().getResource("/images/keyandinvalidcert.gif"));
     trustedCertIcon = new ImageIcon(getClass().getResource("/images/trustedcert.gif"));
     validCertIcon = new ImageIcon(getClass().getResource("/images/cert1.gif"));
     invalidCertIcon = new ImageIcon(getClass().getResource("/images/invalidcert.gif"));
@@ -40,15 +45,52 @@ public class KeyStoreTreeCellRenderer
     DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
     if (leaf && node.getUserObject() instanceof KeyStoreEntryHolder)
     {
+      boolean valid = true;
+      KeyStoreEntryHolder entryHolder = (KeyStoreEntryHolder) node.getUserObject();
+      Certificate[] certChain = entryHolder.getChain();
+      X509Certificate[] x509CertChain = new X509Certificate[certChain.length];
+      for (int i = 0; i < certChain.length; i++)
+      {
+        x509CertChain[i] = (X509Certificate) certChain[i];
+      }
+
+      for (int i = 0; i < x509CertChain.length; i++)
+      {
+        try
+        {
+            x509CertChain[i].checkValidity();
+        }
+        catch (CertificateException ce)
+        {
+          valid = false;
+        }
+      }
+
       if (((KeyStoreEntryHolder) node.getUserObject()).isKeyEntry())
       {
-        setToolTipText("Private Key with Certificate");
-        setIcon(keyIcon);
+        if (valid)
+        {
+          setToolTipText("Private Key with Certificate");
+          setIcon(keyIcon);
+        }
+        else
+        {
+            setToolTipText("Private Key with invalid Certificate");
+            setIcon(invalidKeyIcon);
+          }
       }
       else
       {
-        setToolTipText("Trusted Certificate");
-        setIcon(trustedCertIcon);
+        if (valid)
+        {
+          setToolTipText("Trusted Certificate");
+          setIcon(trustedCertIcon);
+        }
+        else
+        {
+          setToolTipText("Invalid Trusted Certificate");
+          setIcon(invalidCertIcon);
+        }
       }
     }
     else if (node.getUserObject() instanceof KeyStoreHolder)
