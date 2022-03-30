@@ -47,7 +47,7 @@
          <include name="default/xalan/xalan.jar"/>
          <include name="default/xalan/serializer.jar"/>
          <include name="default/xml-apis/xml-apis.jar"/>
-         <include name="default/xerces/xercesImpl.jar"/>
+         <include name="default/xercesImpl/xercesImpl.jar"/>
          <include name="default/xml-resolver/xml-resolver.jar"/>
        </fileset>
     </path>
@@ -271,12 +271,12 @@ xerces in current vm: ${xerces.version.ant}
       unless="retrieve-3rd-party-libs.uptodate">
         <!-- for eclipse/doclet -->
         <mkdir dir="${base.dir}/lib/eclipse"/>
-        <copy file="${env.JAVA_HOME}/lib/tools.jar"
-            todir="${base.dir}/lib/eclipse"/>
+<!--        <copy file="${env.JAVA_HOME}/lib/tools.jar"
+            todir="${base.dir}/lib/eclipse"/>-->
         <!-- xmlns:ivy="antlib:fr.jayasoft.ivy.ant" -->
         <typedef resource="fr/jayasoft/ivy/ant/antlib.xml">
             <classpath>
-                <pathelement location="${base.dir}/lib/ivy/ivy-2.0.0-beta2.jar"/>
+                <pathelement location="${base.dir}/lib/ivy/ivy-2.5.0.jar"/>
             </classpath>
         </typedef>
         <settings file="${base.dir}/config/ivyconf.xml" />
@@ -402,7 +402,7 @@ xerces in current vm: ${xerces.version.ant}
            deprecation="${build.debug}"
            debug="true"
            fork="true"
-           source="1.5">
+           source="1.6">
           <src path="${base.dir}/src/java"/>
           <src path="${build.dir}/gen-java"/>
           <classpath refid="default.classpath"/>
@@ -615,7 +615,7 @@ xerces in current vm: ${xerces.version.ant}
          additionalparam="-quiet"
          locale="en_US"
          breakiterator="true"
-         source="1.5">
+         source="1.6">
           <tag name="ejb.create-method"/>
           <tag name="ejb.bean"/>
           <tag name="ejb.interface"/>

@@ -17,6 +17,9 @@
         <dependency org="xalan" name="xalan" rev="2.7.0">
             <artifact name="xalan"/>
         </dependency>
+        <dependency org="xerces" name="xercesImpl" rev="2.12.1">
+            <artifact name="xercesImpl"/>
+        </dependency>
         <dependency org="bouncycastle" name="bcprov-jdk16" rev="140">
             <artifact name="bcprov-jdk16"/>
         </dependency>

@@ -12,10 +12,7 @@ import java.security.KeyStoreException;
 import java.util.Enumeration;
 
 import javax.swing.ToolTipManager;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.ExpandVetoException;
-import javax.swing.tree.TreePath;
+import javax.swing.tree.*;
 
 import org.jcoderz.keytoolz.keystoreexplorer.util.PropertiesUtil;
 import org.jcoderz.keytoolz.keystoreexplorer.util.SemaphoreUtil;
@@ -363,10 +360,10 @@ public class ExplorerFrame
       KeyStoreHolder newKsHolder = new KeyStoreHolder(f);
       if (oldRoot != null)
       {
-        Enumeration<DefaultMutableTreeNode> children = oldRoot.children();
+        Enumeration<TreeNode> children = oldRoot.children();
         while (children.hasMoreElements())
         {
-          DefaultMutableTreeNode child = children.nextElement();
+          DefaultMutableTreeNode child = (DefaultMutableTreeNode) children.nextElement();
           KeyStoreHolder oldKsHolder = (KeyStoreHolder) child.getUserObject();
           if (oldKsHolder.getKsFile().compareTo(f) == 0)
           {

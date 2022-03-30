@@ -940,7 +940,7 @@ public class ExplorerPopupMenus
       {
         int option =
             JOptionPane.showConfirmDialog(currentPopup, "The file '" + saveFile.getName()
-                + "' already exists. " + "Do you realy want to overwrite the file.",
+                + "' already exists. " + "Do you really want to overwrite the file.",
                 "Overwrite file?", JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION);
         if (option != JOptionPane.YES_OPTION)
         {
@@ -1007,9 +1007,11 @@ public class ExplorerPopupMenus
       X509V3CertificateGenerator certGen = new X509V3CertificateGenerator();
       certGen.setPublicKey(pair.getPublic());
       certGen.setSignatureAlgorithm("SHA1withRSA");
+      String issuerString = JOptionPane.showInputDialog(currentPopup,
+              "Please enter the issuer distinguished name for the new key in the following way <CN=..., O=..., OU=...>.",
+              "Enter issuer CA name", JOptionPane.PLAIN_MESSAGE);
       X509Name issuer =
-          new X509Name("CN=Achievo Development Root CA, O=Achievo Deutschland AG, "
-              + "OU=Professional Services, OU=Development");
+          new X509Name(issuerString);
       certGen.setIssuerDN(issuer);
       certGen.setSubjectDN(issuer);
       certGen.setSerialNumber(BigInteger.ONE);
