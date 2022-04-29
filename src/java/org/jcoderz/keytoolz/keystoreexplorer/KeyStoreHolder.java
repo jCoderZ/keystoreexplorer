@@ -4,10 +4,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.security.KeyStore;
+import java.security.PKCS12Attribute;
 
 public class KeyStoreHolder
 {
-  private static final String STORE_TYPE = "JKS";
+  private static final String STORE_TYPE = "PKCS12"; //"P12" "JKS"
   private File ksFile;
   private KeyStore keyStore;
   private char[] storePass;

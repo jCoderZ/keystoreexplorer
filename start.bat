@@ -1,0 +1,1 @@
+java --add-exports=java.base/sun.security.util=ALL-UNNAMED --add-exports=java.base/sun.security.x509=ALL-UNNAMED -jar target\keystoreexplorer-1.0-SNAPSHOT-jar-with-dependencies.jar
