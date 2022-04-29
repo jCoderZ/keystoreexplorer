@@ -38,7 +38,7 @@ public class StrictKeyStoreFileFilter
     {
       result = false;
     }
-    return result;
+    return true;//result;
   }
 
 

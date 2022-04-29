@@ -79,11 +79,12 @@ import org.jcoderz.keytoolz.keystoreexplorer.util.CertUtil;
 import sun.security.util.ObjectIdentifier;
 import sun.security.x509.OIDMap;
 
+
 /**
  * The main panel of the certificate explorer.
  *
  * @author cloroff
- * @created 14. März 2007, 16:32
+ * @created 14. Mï¿½rz 2007, 16:32
  */
 public class CertificateExplorer
     extends JPanel
@@ -928,7 +929,7 @@ public class CertificateExplorer
         ObjectIdentifier oid = null;
         try
         {
-          oid = new ObjectIdentifier(sOid);
+          oid = ObjectIdentifier.of(sOid);
         }
         catch (IOException e)
         {

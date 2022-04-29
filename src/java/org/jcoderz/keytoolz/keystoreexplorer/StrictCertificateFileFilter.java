@@ -1,7 +1,7 @@
 /*
  * CertificateFileFilter.java
  *
- * Created on 14. März 2007, 06:32
+ * Created on 14. Mï¿½rz 2007, 06:32
  *
  * To change this template, choose Tools | Template Manager
  * and open the template in the editor.
@@ -10,6 +10,7 @@
 package org.jcoderz.keytoolz.keystoreexplorer;
 
 import java.io.File;
+import java.security.PKCS12Attribute;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class StrictCertificateFileFilter
     extends javax.swing.filechooser.FileFilter
     implements java.io.FileFilter
 {
-  private static final String[] CERTIFICATE_FILE_EXTENSIONS = {"cer", "crt", "der"};
+  private static final String[] CERTIFICATE_FILE_EXTENSIONS = {"cer", "crt", "der", "p12"};
   private static final List<String> EXTENSION_LIST = Arrays.asList(CERTIFICATE_FILE_EXTENSIONS);
 
 
